@@ -44,8 +44,15 @@ module Codeivate {
 			chrome.browserAction.setBadgeText({
 				text: profile.level.toString()
 			});
-			var set = (eId: string, value: any) => {
-				this.doc.getElementById(eId).innerText = value.toString();
+			var color = [];
+			if (profile.isCoding === true) {
+				color = [95,255,95,255];
+			} else {
+				color = [255,95,95,255];
+			}
+			chrome.browserAction.setBadgeBackgroundColor({color: color});
+			var set = (id: string, value: any) => {
+				this.doc.getElementById(id).innerText = value.toString();
 			};
 			var fields = [
 				"name",

@@ -41,8 +41,15 @@ var Codeivate;
             chrome.browserAction.setBadgeText({
                 text: profile.level.toString()
             });
-            var set = function (eId, value) {
-                _this.doc.getElementById(eId).innerText = value.toString();
+            var color = [];
+            if (profile.isCoding === true) {
+                color = [95, 255, 95, 255];
+            } else {
+                color = [255, 95, 95, 255];
+            }
+            chrome.browserAction.setBadgeBackgroundColor({ color: color });
+            var set = function (id, value) {
+                _this.doc.getElementById(id).innerText = value.toString();
             };
             var fields = [
                 "name",
@@ -68,6 +75,7 @@ var Codeivate;
             this.signatureUrl = "http://www.codeivate.com/users/" + this.name + "/signature.png";
             this.timeSpent = (data['time_spent'] / 60 / 60).toFixed(2) + " Hours";
             this.currentLanguage = data['current_language'];
+            this.isCoding = data['programming_now'];
         }
         return User;
     })();
