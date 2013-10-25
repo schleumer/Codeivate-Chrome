@@ -1,0 +1,1 @@
+"src/lib/chrome.d.ts" "src/extension/Extension.ts" "src/extension/User.ts" "src/Codeivate.ts" --target ES5 --module amd --out bin/extension.js

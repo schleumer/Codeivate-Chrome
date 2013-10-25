@@ -1,0 +1,29 @@
+{
+	"manifest_version": 2,
+	"name": "Codeivate Chrome",
+	"description": "Check your Codeivate Profile",
+	"version": "1.0",
+	"permissions": [
+		"http://codeivate.com/users/BeryJu.json",
+		"notifications"
+	],
+	// "options_page": "options/index.html",
+	"icons": {
+		"16": "icon.png",
+		"48": "icon.png",
+		"128": "icon128.png"
+	},
+	"background": {
+		"scripts": [
+			"extension.js"
+		]
+	},
+	"browser_action": {
+		"default_icon": {
+			"19": "icon.png",
+			"38": "icon.png"
+		},
+		"default_title": "Codeivate",
+		"default_popup": "popup/index.html"
+	}
+}

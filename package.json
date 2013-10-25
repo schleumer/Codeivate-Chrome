@@ -1,0 +1,9 @@
+{
+	"name": "CodeivateChrome",
+	"author": "BeryJu jenslanghammer@gmail.com",
+	"dependencies": {
+		"grunt": "latest",
+		"grunt-contrib-uglify": "~0.2.4",
+		"grunt-ts": "latest"
+	}
+}
