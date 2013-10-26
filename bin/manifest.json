@@ -18,6 +18,7 @@
 			"extension.js"
 		]
 	},
+	"options_page": "options/index.html",
 	"browser_action": {
 		"default_icon": {
 			"19": "icon.png",
