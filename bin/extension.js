@@ -43,12 +43,14 @@ var Codeivate;
             });
             var color = [];
             if (profile.isCoding === true) {
-                color = [95, 255, 95, 255];
+                color = [125, 255, 125, 255];
             } else {
                 color = [255, 95, 95, 255];
             }
             chrome.browserAction.setBadgeBackgroundColor({ color: color });
             var set = function (id, value) {
+                if (value === false)
+                    value = "None";
                 _this.doc.getElementById(id).innerText = value.toString();
             };
             var fields = [
