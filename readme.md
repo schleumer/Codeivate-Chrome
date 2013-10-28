@@ -7,4 +7,7 @@
 
 # Installation
 
-Just drag the .crx in dist/ on you Extension site.
+1. Open [chrome://extensions/](chrome://extensions/)
+2. Drag the .crx in dist/ from a folder onto the Extension page opened above
+3. Right click on the new Codeivate icon select 'options'
+4. Enter your Codeivate username
