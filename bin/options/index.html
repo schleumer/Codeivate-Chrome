@@ -18,7 +18,7 @@
 			}
 
 			.form-signin {
-				max-width: 300px;
+				max-width: 350px;
 				padding: 19px 29px 29px;
 				margin: 0 auto 20px;
 				background-color: #fff;
@@ -50,11 +50,24 @@
 		<div class="container">
 
 			<div class="form-signin">
-				<input type="text" class="form-control input-block-level" placeholder="Username" id="username">
-				<button class="btn btn-large btn-primary" id="submit">Authenticate</button>
+
+				<div class="form-group">
+  					<label class="control-label" for="username">Enter your <a href="http://www.codeivate.com/">codeivate.com</a> Username <span class="username_error"></span></label>
+  					
+					<input type="text" class="form-control input-block-level" placeholder="Username" id="username">
+				</div>
+				<button class="btn btn-large btn-primary" data-loading-text="Authenticating..." id="submit">Authenticate</button>
+				<button class="btn btn-large btn-danger" id="reset">Reset</button>
 			</div>
 
+			<ul id="links">
+				<li><a href="http://www.codeivate.com">www.codeivate.com</a></li>
+				<li><a href="http://www.codeivate.com/users/leaderboard">www.codeivate.com/users/leaderboard</a></li>
+			</ul>
+
 		</div>
+		<script src="../js/jquery-2.0.3.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
 		<script src="../extension.js"></script>
 		<script src="options.js"></script>
 	</body>
