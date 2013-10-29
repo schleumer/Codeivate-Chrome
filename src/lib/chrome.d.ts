@@ -6,6 +6,8 @@
 ////////////////////
 // Alarms
 ////////////////////
+
+
 declare module chrome.alarms {
 	interface AlarmCreateInfo {
 		delayInMinutes?: number;
