@@ -52,10 +52,16 @@ $(document).ready(function(){
 
 
 	if (localStorage['user']) {
-		document.getElementById("submit").disabled = true;
-		document.getElementById("username").value = localStorage['user'];
-		document.getElementById("username").disabled = true;
-		document.getElementById("submit").innerText = "Authenticated!";
+		$("submit").prop('disabled', true);
+		$("username").val(localStorage['user']);
+		$("username").prop('disabled',true);
+		$("submit").html("Authenticated!");
+
+		$('#links').append($('<li>').html(
+			$("<a>").attr('href','http://www.codeivate.com/users/' + localStorage['user'])
+			.html('http://www.codeivate.com/users/'+localStorage['user'])
+			)
+		);			
 	}
 
 });

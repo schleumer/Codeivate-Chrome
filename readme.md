@@ -4,6 +4,8 @@
 
 ![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/popout.png)
 
+![0](https://raw.github.com/codeivate/Codeivate-Chrome/master/images/level.png)
+
 
 # Installation
 
