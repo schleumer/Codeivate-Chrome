@@ -13,3 +13,50 @@
 2. Drag the .crx in dist/ from a folder onto the Extension page opened above
 3. Right click on the new Codeivate icon select 'options'
 4. Enter your Codeivate username
+
+# Contribute
+
+## Building 
+
+0. Install Node.js [nodejs.org](http://nodejs.org/)
+
+1. Install grunt
+
+`npm install -g grunt-cli`
+
+2. Install TypeScript
+
+`npm install -g typescript`
+
+3. Install dependencies
+
+`npm install`
+
+4. Build
+
+`grunt`
+
+# Warning
+
+The current build will error during building due to webkitNotifications not being defined.
+This is a know issue and is worked on.
+To circumvent the issue, you can execute `grunt --force`.
+
+## Files
+
+### src/extension/Extension.ts
+
+The Main Extension, i.e. Updating, Authenticating and Parsing
+
+### src/extension/Language.ts
+
+Data Structure for a Codeivate Langauge, holds Name, Level and Points.
+
+### src/extension/User.ts
+
+Data Structure for the User Profile, holds Name, Level and more.
+
+### src/lib/chrome.d.ts
+
+Declares Chrome Extension API's for TypeScript compiler
+
