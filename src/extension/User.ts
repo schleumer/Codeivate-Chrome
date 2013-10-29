@@ -21,8 +21,11 @@ module Codeivate {
 			this.isCoding = data['programming_now'];
 			this.isStreaking = data['streaking_now'];
 			for (var l in data['languages']) {
-				var lang = new Codeivate.Language(l, data['languages']['level'], 
-						data['languages']['points']);
+				//raw langauge data
+				var rLang = data['languages'][l];
+				//parsed data
+				var lang = new Codeivate.Language(l, rLang['level'], rLang['points']);
+				//add it to the languages
 				this.languages.push(lang);
 			}
 		}

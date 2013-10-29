@@ -51,36 +51,29 @@ module Codeivate {
 			chrome.browserAction.setBadgeText({
 				text: profile.level.toString()
 			});
+			//use current porfile if there is no previous
 			if (localStorage['last_user'] !== undefined) {
-				var lastProfile = new Codeivate.User(JSON.parse(localStorage['last_user']));
-
-				// stopped programming
-				if (profile.isCoding === false && lastProfile.isCoding === true) {
-					var notification = webkitNotifications.createNotification(
-						'/icon.png', // icon url - can be relative
-						'Stopped programming!?', // notification title
-						'You should probably get back into it..' // notification body text
+				localStorage['last_user'] = JSON.stringify(profile);
+			}
+			var lastProfile = <Codeivate.User> JSON.parse(localStorage['last_user']);
+			if (profile.isCoding === false && lastProfile.isCoding === true) {
+				var notification = webkitNotifications.createNotification('/icon.png',
+					'Stopped programming!?',
+					'You should probably get back into it..'
+				);
+				notification.show();
+			}
+			//check for level changes
+			profile.languages.forEach((language, i) => {
+				var oldLangauge = lastProfile.languages[i];
+				if ((language.level - oldLangauge.level) > 0) {
+					var notification = webkitNotifications.createNotification('/icon.png',
+						'You gained a level in ' + language.name, // notification title
+						'Welcome to level ' + Math.floor(language.level)
 					);
 					notification.show();
 				}
-
-				profile.languages.forEach((l, i) => {
-					var curr = l;
-					var old = lastProfile.languages[i];
-					if ((curr.level - old.level) > 0) {
-						console.log(l.name + ":" + (curr.level - old.level));
-						if ((Math.floor(curr.level) - Math.floor(old.level)) > 0) {
-							//you have gained a level
-							var notification = webkitNotifications.createNotification(
-								'/icon.png', // icon url - can be relative
-								'You gained a level in ' + l.name, // notification title
-								'Welcome to level ' + Math.floor(curr.level)
-							);
-							notification.show();
-						}
-					}
-				});
-			}
+			});
 			var color = [];
 			if (profile.isCoding === true) {
 				color = [125,255,125,255];
@@ -88,7 +81,7 @@ module Codeivate {
 				color = [255,95,95,255];
 			}
 			chrome.browserAction.setBadgeBackgroundColor({color: color});
-			var set = (id: string, value: any) => {
+			var setValue = (id: string, value: any) => {
 				if (value === false) value = "None";
 				this.doc.getElementById(id).innerText = value.toString();
 			};
@@ -99,8 +92,9 @@ module Codeivate {
 				"timeSpent"
 			];
 			fields.forEach((field) => {
-				set(field, profile[field]);
+				setValue(field, profile[field]);
 			});
+			//preserver current profile for level up
 			localStorage['last_user'] = JSON.stringify(profile);
 		}
 

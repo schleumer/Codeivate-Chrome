@@ -2,14 +2,14 @@ $(document).ready(function(){
 
 	console.log(localStorage['user']);
 	if (localStorage['user'] !== undefined) {
-		$("submit").prop('disabled', true);
-		$("username").val(localStorage['user']);
-		$("username").prop('disabled',true);
-		$("submit").html("Authenticated!");
+		$("#submit").prop('disabled', true);
+		$("#username").val(localStorage['user']);
+		$("#username").prop('disabled',true);
+		$("#submit").html("Authenticated!");
 
 		$('#links').append($('<li>').html(
-			$("<a>").attr('href','http://www.codeivate.com/users/' + localStorage['user'])
-			.html('http://www.codeivate.com/users/'+localStorage['user'])
+			$("<a>").attr('href','http://codeivate.com/users/' + localStorage['user'])
+			.html('codeivate.com/users/'+localStorage['user'])
 			)
 		);
 	}

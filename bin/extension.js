@@ -47,27 +47,24 @@ var Codeivate;
             chrome.browserAction.setBadgeText({
                 text: profile.level.toString()
             });
-            if (localStorage['last_user'] !== undefined) {
-                var lastProfile = new Codeivate.User(JSON.parse(localStorage['last_user']));
 
-                if (profile.isCoding === false && lastProfile.isCoding === true) {
-                    var notification = webkitNotifications.createNotification('/icon.png', 'Stopped programming!?', 'You should probably get back into it..');
+            if (localStorage['last_user'] !== undefined) {
+                localStorage['last_user'] = JSON.stringify(profile);
+            }
+            var lastProfile = JSON.parse(localStorage['last_user']);
+            if (profile.isCoding === false && lastProfile.isCoding === true) {
+                var notification = webkitNotifications.createNotification('/icon.png', 'Stopped programming!?', 'You should probably get back into it..');
+                notification.show();
+            }
+
+            //check for level changes
+            profile.languages.forEach(function (language, i) {
+                var oldLangauge = lastProfile.languages[i];
+                if ((language.level - oldLangauge.level) > 0) {
+                    var notification = webkitNotifications.createNotification('/icon.png', 'You gained a level in ' + language.name, 'Welcome to level ' + Math.floor(language.level));
                     notification.show();
                 }
-
-                profile.languages.forEach(function (l, i) {
-                    var curr = l;
-                    var old = lastProfile.languages[i];
-                    if ((curr.level - old.level) > 0) {
-                        console.log(l.name + ":" + (curr.level - old.level));
-                        if ((Math.floor(curr.level) - Math.floor(old.level)) > 0) {
-                            //you have gained a level
-                            var notification = webkitNotifications.createNotification('/icon.png', 'You gained a level in ' + l.name, 'Welcome to level ' + Math.floor(curr.level));
-                            notification.show();
-                        }
-                    }
-                });
-            }
+            });
             var color = [];
             if (profile.isCoding === true) {
                 color = [125, 255, 125, 255];
@@ -75,7 +72,7 @@ var Codeivate;
                 color = [255, 95, 95, 255];
             }
             chrome.browserAction.setBadgeBackgroundColor({ color: color });
-            var set = function (id, value) {
+            var setValue = function (id, value) {
                 if (value === false)
                     value = "None";
                 _this.doc.getElementById(id).innerText = value.toString();
@@ -87,8 +84,10 @@ var Codeivate;
                 "timeSpent"
             ];
             fields.forEach(function (field) {
-                set(field, profile[field]);
+                setValue(field, profile[field]);
             });
+
+            //preserver current profile for level up
             localStorage['last_user'] = JSON.stringify(profile);
         };
         return Extension;
@@ -121,7 +120,13 @@ var Codeivate;
             this.isCoding = data['programming_now'];
             this.isStreaking = data['streaking_now'];
             for (var l in data['languages']) {
-                var lang = new Codeivate.Language(l, data['languages']['level'], data['languages']['points']);
+                //raw langauge data
+                var rLang = data['languages'][l];
+
+                //parsed data
+                var lang = new Codeivate.Language(l, rLang['level'], rLang['points']);
+
+                //add it to the languages
                 this.languages.push(lang);
             }
         }
