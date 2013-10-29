@@ -18,22 +18,40 @@ var Codeivate;
             clearInterval(this.updateIntervalToken);
         };
 
-        Extension.prototype.update = function () {
-            var _this = this;
+        Extension.prototype.request = function (updateFunction) {
+            console.log('requesting from server');
             var request = new XMLHttpRequest();
-            request.onreadystatechange = function (req) {
-                if (request.readyState === 4) {
-                    if (request.status === 200) {
-                        var data = JSON.parse(request.responseText);
-                        var profile = new Codeivate.User(data);
-                        _this.updateExtension(profile);
-                    } else {
-                        console.error("status code: " + request.status);
-                    }
+            request.onreadystatechange = function (xhr) {
+                var response = xhr.srcElement;
+                console.dir(xhr);
+                if (response.readyState === 4) {
+                    console.dir(response);
+                    updateFunction(response);
                 }
             };
             request.open("GET", this.baseUrl + this.userName + ".json", true);
             request.send();
+        };
+
+        Extension.prototype.authenticate = function (authenticateFunction) {
+            console.log('authenticating');
+
+              var _this = this;
+              _this.request(authenticateFunction);
+        };
+
+        Extension.prototype.update = function () {
+
+            this.request(function(){
+                var _this = this;
+                if (request.status === 200) {
+                            var data = JSON.parse(request.responseText);
+                            var profile = new Codeivate.User(data);
+                            _this.updateExtension(profile);
+                } else {
+                    console.error("status code: " + request.status);
+                }                
+            });
         };
 
         Extension.prototype.updateExtension = function (profile) {
@@ -68,6 +86,7 @@ var Codeivate;
     Codeivate.Extension = Extension;
 })(Codeivate || (Codeivate = {}));
 var Codeivate;
+
 (function (Codeivate) {
     var User = (function () {
         function User(data) {
