@@ -9,7 +9,7 @@ $(document).ready(function(){
 
 		$('#links').append($('<li>').html(
 			$("<a>").attr('href','http://codeivate.com/users/' + localStorage['user'])
-			.html('codeivate.com/users/'+localStorage['user'])
+			.html(localStorage['user']+" on Codeivate")
 			)
 		);
 	}
