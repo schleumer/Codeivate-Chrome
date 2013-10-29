@@ -36,12 +36,6 @@
 
 `grunt`
 
-# Warning
-
-The current build will error during building due to webkitNotifications not being defined.
-This is a know issue and is worked on.
-To circumvent the issue, you can execute `grunt --force`.
-
 ## Files
 
 ### src/extension/Extension.ts
@@ -60,3 +54,6 @@ Data Structure for the User Profile, holds Name, Level and more.
 
 Declares Chrome Extension API's for TypeScript compiler
 
+### src/lib/webkit.d.ts
+
+Declares webkit's Notification API for the TypeScript compiler
