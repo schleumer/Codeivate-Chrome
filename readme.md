@@ -1,11 +1,12 @@
 # Codeivate for Chrome
 
-![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/icon.png)
+![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/bigger/001.png)
 
-![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/popout.png)
+![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/bigger/002.png)
 
-![0](https://raw.github.com/codeivate/Codeivate-Chrome/master/images/level.png)
+![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/bigger/003.png)
 
+![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/level.png)
 
 # Installation
 
@@ -14,7 +15,7 @@
 3. Right click on the new Codeivate icon select 'options'
 4. Enter your Codeivate username
 
-# Contribute
+# Contributing
 
 ## Building 
 
