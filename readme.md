@@ -1,10 +1,10 @@
 # Codeivate for Chrome
 
-![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/bigger/001.png)
+![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/001.png)
 
-![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/bigger/002.png)
+![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/002.png)
 
-![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/bigger/003.png)
+![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/003.png)
 
 ![0](https://raw.github.com/BeryJu/Codeivate-Chrome/master/images/level.png)
 
