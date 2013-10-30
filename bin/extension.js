@@ -2,10 +2,17 @@ var Codeivate;
 (function (Codeivate) {
     var Extension = (function () {
         function Extension(name, doc) {
-            this.updateInterval = 30000;
+            this.updateInterval = 10000;
             this.baseUrl = "http://codeivate.com/users/";
             this.userName = name;
             this.doc = doc;
+            if (!localStorage['settings']) {
+                this.settings = new Codeivate.Settings();
+                this.settings.codingColor = [125, 255, 125, 255];
+                this.settings.nonCodingColor = [255, 95, 95, 255];
+                localStorage['settings'] = JSON.stringify(this.settings);
+            }
+            this.settings = JSON.parse(localStorage['settings']);
         }
         Extension.prototype.start = function () {
             var _this = this;
@@ -44,13 +51,20 @@ var Codeivate;
 
         Extension.prototype.updateExtension = function (profile) {
             var _this = this;
+            //set the icon badge to the level
             chrome.browserAction.setBadgeText({
                 text: profile.level.toString()
             });
 
-            if (localStorage['last_user'] !== undefined) {
+            if (localStorage['settings']) {
+                this.settings = JSON.parse(localStorage['settings']);
+            }
+
+            if (!localStorage['last_user']) {
                 localStorage['last_user'] = JSON.stringify(profile);
             }
+
+            //cast the last profile from object to Codeivate.User
             var lastProfile = JSON.parse(localStorage['last_user']);
             if (profile.isCoding === false && lastProfile.isCoding === true) {
                 var notification = webkitNotifications.createNotification('/icon.png', 'Stopped programming!?', 'You should probably get back into it..');
@@ -58,24 +72,24 @@ var Codeivate;
             }
 
             //check for level changes
-            profile.languages.forEach(function (language, i) {
-                var oldLangauge = lastProfile.languages[i];
+            profile.languages.forEach(function (language, index) {
+                var oldLangauge = lastProfile.languages[index];
                 if ((language.level - oldLangauge.level) > 0) {
                     var notification = webkitNotifications.createNotification('/icon.png', 'You gained a level in ' + language.name, 'Welcome to level ' + Math.floor(language.level));
                     notification.show();
                 }
             });
-            var color = [];
+            console.log(this.settings);
             if (profile.isCoding === true) {
-                color = [125, 255, 125, 255];
+                chrome.browserAction.setBadgeBackgroundColor({ color: this.settings.codingColor });
             } else {
-                color = [255, 95, 95, 255];
+                chrome.browserAction.setBadgeBackgroundColor({ color: this.settings.nonCodingColor });
             }
-            chrome.browserAction.setBadgeBackgroundColor({ color: color });
             var setValue = function (id, value) {
                 if (value === false)
                     value = "None";
-                _this.doc.getElementById(id).innerText = value.toString();
+                if (_this.doc)
+                    _this.doc.getElementById(id).innerText = value.toString();
             };
             var fields = [
                 "name",
@@ -105,6 +119,15 @@ var Codeivate;
         return Language;
     })();
     Codeivate.Language = Language;
+})(Codeivate || (Codeivate = {}));
+var Codeivate;
+(function (Codeivate) {
+    var Settings = (function () {
+        function Settings() {
+        }
+        return Settings;
+    })();
+    Codeivate.Settings = Settings;
 })(Codeivate || (Codeivate = {}));
 var Codeivate;
 (function (Codeivate) {

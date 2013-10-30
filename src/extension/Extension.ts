@@ -3,15 +3,23 @@ module Codeivate {
 	export class Extension {
 
 		userName: string;
-		updateInterval: number = 30000;
+		updateInterval: number = 10000;
 		updateIntervalToken: number;
 		baseUrl: string = "http://codeivate.com/users/";
 		doc: any;
 		lastUser: Codeivate.User;
+		settings: Codeivate.Settings;
 
 		constructor(name: string, doc: any) {
 			this.userName = name;
 			this.doc = doc;
+			if (!localStorage['settings']) {
+				this.settings = new Codeivate.Settings();
+				this.settings.codingColor = [125,255,125, 255];
+				this.settings.nonCodingColor = [255,95,95, 255];
+				localStorage['settings'] = JSON.stringify(this.settings);
+			}
+			this.settings = <Codeivate.Settings> JSON.parse(localStorage['settings']);
 		}
 
 		start(): void {
@@ -48,42 +56,51 @@ module Codeivate {
 		}
 
 		updateExtension(profile: Codeivate.User): void {
+			//set the icon badge to the level
 			chrome.browserAction.setBadgeText({
 				text: profile.level.toString()
 			});
+			//check if settings changed, if so load them.
+			if (localStorage['settings']) {
+				this.settings = <Codeivate.Settings> JSON.parse(localStorage['settings']);
+			}
 			//use current porfile if there is no previous
-			if (localStorage['last_user'] !== undefined) {
+			if (!localStorage['last_user']) {
 				localStorage['last_user'] = JSON.stringify(profile);
 			}
+			//cast the last profile from object to Codeivate.User
 			var lastProfile = <Codeivate.User> JSON.parse(localStorage['last_user']);
 			if (profile.isCoding === false && lastProfile.isCoding === true) {
-				var notification = webkitNotifications.createNotification('/icon.png',
+				var notification = webkitNotifications.createNotification(
+					'/icon.png',
 					'Stopped programming!?',
 					'You should probably get back into it..'
 				);
 				notification.show();
 			}
 			//check for level changes
-			profile.languages.forEach((language, i) => {
-				var oldLangauge = lastProfile.languages[i];
+			profile.languages.forEach((language, index) => {
+				var oldLangauge = lastProfile.languages[index];
 				if ((language.level - oldLangauge.level) > 0) {
-					var notification = webkitNotifications.createNotification('/icon.png',
-						'You gained a level in ' + language.name, // notification title
+					var notification = webkitNotifications.createNotification(
+						'/icon.png',
+						'You gained a level in ' + language.name,
 						'Welcome to level ' + Math.floor(language.level)
 					);
 					notification.show();
 				}
 			});
-			var color = [];
+			console.log(this.settings);
 			if (profile.isCoding === true) {
-				color = [125,255,125,255];
+				chrome.browserAction.setBadgeBackgroundColor(
+					{color: this.settings.codingColor});
 			} else {
-				color = [255,95,95,255];
+				chrome.browserAction.setBadgeBackgroundColor(
+					{color: this.settings.nonCodingColor});
 			}
-			chrome.browserAction.setBadgeBackgroundColor({color: color});
 			var setValue = (id: string, value: any) => {
 				if (value === false) value = "None";
-				this.doc.getElementById(id).innerText = value.toString();
+				if (this.doc) this.doc.getElementById(id).innerText = value.toString();
 			};
 			var fields = [
 				"name",

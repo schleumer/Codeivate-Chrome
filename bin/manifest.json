@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Codeivate Chrome",
 	"description": "Check your Codeivate Profile",
-	"version": "1.3.1",
+	"version": "1.4",
 	"permissions": [
 		"http://codeivate.com/users/*.json",
 		"notifications"
@@ -14,7 +14,8 @@
 	},
 	"background": {
 		"scripts": [
-			"extension.js"
+			"extension.js",
+			"main.js"
 		]
 	},
 	"options_page": "options/index.html",
