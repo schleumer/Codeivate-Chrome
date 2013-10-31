@@ -15,6 +15,8 @@ var callb = function() {
 chrome.runtime.onStartup.addListener(callb);
 
 chrome.runtime.onInstalled.addListener(function() {
-	chrome.tabs.create({ url: "options/index.html" });
+	if (!localStorage['user']) {
+		chrome.tabs.create({ url: "options/index.html" });
+	}
 });
 callb();

@@ -53,8 +53,6 @@ var Codeivate;
         };
 
         Extension.prototype.updateExtension = function (profile) {
-            console.log('mkay');
-
             //set the icon badge to the level
             chrome.browserAction.setBadgeText({
                 text: profile.level.toString()
@@ -71,7 +69,7 @@ var Codeivate;
             //cast the last profile from object to Codeivate.User
             var lastProfile = JSON.parse(localStorage['lastProfile']);
             if (profile.isCoding === false && lastProfile.isCoding === true) {
-                chrome.notifications.create("stopped", {
+                chrome.notifications.create("", {
                     type: "basic",
                     title: 'Stopped programming!?',
                     message: 'You should probably get back into it..',
@@ -86,7 +84,7 @@ var Codeivate;
                     console.log(language.name + ":" + (language.level - oldLangauge.level));
                     if ((Math.floor(language.level) - Math.floor(oldLangauge.level)) > 0) {
                         //you have gained a level
-                        chrome.notifications.create(language.name, {
+                        chrome.notifications.create("", {
                             type: "basic",
                             title: 'You gained a level in ' + language.name,
                             message: 'Welcome to level ' + Math.floor(language.level),

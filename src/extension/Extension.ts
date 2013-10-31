@@ -72,7 +72,7 @@ module Codeivate {
 			//cast the last profile from object to Codeivate.User
 			var lastProfile = <Codeivate.User> JSON.parse(localStorage['lastProfile']);
 			if (profile.isCoding === false && lastProfile.isCoding === true) {
-				chrome.notifications.create("stopped", {
+				chrome.notifications.create("", {
 					type: "basic",
 					title: 'Stopped programming!?',
 					message: 'You should probably get back into it..',
@@ -86,7 +86,7 @@ module Codeivate {
 					console.log(language.name + ":" + (language.level - oldLangauge.level));
 					if( (Math.floor(language.level) - Math.floor(oldLangauge.level)) > 0) {
 						//you have gained a level
-						chrome.notifications.create(language.name, {
+						chrome.notifications.create("", {
 							type: "basic",
 							title: 'You gained a level in '+language.name,
 							message: 'Welcome to level ' + Math.floor(language.level),
