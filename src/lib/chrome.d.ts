@@ -124,6 +124,19 @@ declare module chrome.bookmarks {
 	var onChildrenReordered: BookmarkChildrenReordered;
 }
 
+declare module chrome.notifications {
+
+	interface NotificationArguments {
+		type: string;
+		title: string;
+		message: string;
+		iconUrl: string;
+	}
+
+	export function create(id: string, args: NotificationArguments, created: () => any);
+
+}
+
 ////////////////////
 // Browser Action
 ////////////////////
