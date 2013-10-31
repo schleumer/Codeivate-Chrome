@@ -74,7 +74,7 @@ module Codeivate {
 			var lastProfile = <Codeivate.User> JSON.parse(localStorage['lastProfile']);
 			if (profile.isCoding === false && lastProfile.isCoding === true) {
 				var notification = webkitNotifications.createNotification(
-					'/icon.png',
+					'/icon256.png',
 					'Stopped programming!?',
 					'You should probably get back into it..'
 				);
@@ -88,7 +88,7 @@ module Codeivate {
 					if( (Math.floor(language.level) - Math.floor(oldLangauge.level)) > 0) {
 						//you have gained a level
 						var notification = webkitNotifications.createNotification(
-							'/icon.png',
+							'/icon256.png',
 							'You gained a level in '+language.name,
 							'Welcome to level ' + Math.floor(language.level)
 						);
