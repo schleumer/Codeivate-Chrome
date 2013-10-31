@@ -1,19 +1,16 @@
-if (!localStorage['user']) {
-	chrome.browserAction.setBadgeText({
-		text: "!"
+
+document.addEventListener('DOMContentLoaded', function () {
+	if (!localStorage['lastProfile']) return;
+	var profile = JSON.parse(localStorage['lastProfile']);
+	var fields = [
+		"name",
+		"level",
+		"currentLanguage",
+		"timeSpent"
+	];
+	fields.forEach(function(field) {
+		if (profile[field] === false) profile[field] = "None";
+		document.getElementById(field).innerText = profile[field].toString();
 	});
-	chrome.browserAction.setBadgeBackgroundColor({
-		color: [255,95,95,255]
-	});
-}
-var extension;
-var popupDocument = document;
-chrome.runtime.onMessage.addListener(function(msg, sender, res) {
-	if (msg === "start") {
-		alert(msg);
-		extension = new Codeivate.Extension(localStorage['user'], popupDocument);
-		extension.update();
-		extension.start();
-		// res()
-	}
+	console.log("Just updated "+new Date().toString());
 });

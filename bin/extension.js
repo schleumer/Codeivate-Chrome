@@ -1,11 +1,10 @@
 var Codeivate;
 (function (Codeivate) {
     var Extension = (function () {
-        function Extension(name, doc) {
+        function Extension(name) {
             this.updateInterval = 10000;
             this.baseUrl = "http://codeivate.com/users/";
             this.userName = name;
-            this.doc = doc;
             if (!localStorage['settings']) {
                 this.settings = new Codeivate.Settings();
                 this.settings.codingColor = [125, 255, 125, 255];
@@ -36,6 +35,10 @@ var Codeivate;
             request.send();
         };
 
+        Extension.prototype.cleanup = function () {
+            delete localStorage['lastProfile'];
+        };
+
         Extension.prototype.update = function () {
             var _this = this;
             this.request(function (res, status) {
@@ -50,7 +53,8 @@ var Codeivate;
         };
 
         Extension.prototype.updateExtension = function (profile) {
-            var _this = this;
+            console.log('mkay');
+
             //set the icon badge to the level
             chrome.browserAction.setBadgeText({
                 text: profile.level.toString()
@@ -60,49 +64,36 @@ var Codeivate;
                 this.settings = JSON.parse(localStorage['settings']);
             }
 
-            if (!localStorage['last_user']) {
-                localStorage['last_user'] = JSON.stringify(profile);
+            if (!localStorage['lastProfile']) {
+                localStorage['lastProfile'] = JSON.stringify(profile);
             }
 
             //cast the last profile from object to Codeivate.User
-            var lastProfile = JSON.parse(localStorage['last_user']);
+            var lastProfile = JSON.parse(localStorage['lastProfile']);
             if (profile.isCoding === false && lastProfile.isCoding === true) {
                 var notification = webkitNotifications.createNotification('/icon.png', 'Stopped programming!?', 'You should probably get back into it..');
                 notification.show();
             }
-
-            //check for level changes
-            profile.languages.forEach(function (language, index) {
-                var oldLangauge = lastProfile.languages[index];
+            for (var k in profile.languages) {
+                var language = profile.languages[k];
+                var oldLangauge = lastProfile.languages[k];
                 if ((language.level - oldLangauge.level) > 0) {
-                    var notification = webkitNotifications.createNotification('/icon.png', 'You gained a level in ' + language.name, 'Welcome to level ' + Math.floor(language.level));
-                    notification.show();
+                    console.log(language.name + ":" + (language.level - oldLangauge.level));
+                    if ((Math.floor(language.level) - Math.floor(oldLangauge.level)) > 0) {
+                        //you have gained a level
+                        var notification = webkitNotifications.createNotification('/icon.png', 'You gained a level in ' + language.name, 'Welcome to level ' + Math.floor(language.level));
+                        notification.show();
+                    }
                 }
-            });
-            console.log(this.settings);
+            }
             if (profile.isCoding === true) {
                 chrome.browserAction.setBadgeBackgroundColor({ color: this.settings.codingColor });
             } else {
                 chrome.browserAction.setBadgeBackgroundColor({ color: this.settings.nonCodingColor });
             }
-            var setValue = function (id, value) {
-                if (value === false)
-                    value = "None";
-                if (_this.doc)
-                    _this.doc.getElementById(id).innerText = value.toString();
-            };
-            var fields = [
-                "name",
-                "level",
-                "currentLanguage",
-                "timeSpent"
-            ];
-            fields.forEach(function (field) {
-                setValue(field, profile[field]);
-            });
 
             //preserver current profile for level up
-            localStorage['last_user'] = JSON.stringify(profile);
+            localStorage['lastProfile'] = JSON.stringify(profile);
         };
         return Extension;
     })();
@@ -133,7 +124,7 @@ var Codeivate;
 (function (Codeivate) {
     var User = (function () {
         function User(data) {
-            this.languages = [];
+            this.languages = {};
             //..parsing...
             this.level = Math.floor(data['level']);
             this.name = data['name'];
@@ -150,7 +141,7 @@ var Codeivate;
                 var lang = new Codeivate.Language(l, rLang['level'], rLang['points']);
 
                 //add it to the languages
-                this.languages.push(lang);
+                this.languages[l] = lang;
             }
         }
         return User;
