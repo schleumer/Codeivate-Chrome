@@ -7,9 +7,10 @@ $(document).ready(function(){
 		$("#submit").html("Authenticated!");
 
 		$('#links').append($('<li>').html(
-			$("<a>").attr('href','http://codeivate.com/users/' + localStorage['user'])
-			.html(localStorage['user']+" on Codeivate")
-			)
+			$("<a>")
+			.attr('href','http://codeivate.com/users/' + localStorage['user'])
+			.attr('target', '_blank')
+			.html(localStorage['user']+" on Codeivate"))
 		);
 	}
 
