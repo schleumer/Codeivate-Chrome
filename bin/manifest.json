@@ -2,12 +2,11 @@
 	"manifest_version": 2,
 	"name": "Codeivate Chrome",
 	"description": "Check your Codeivate Profile",
-	"version": "1.1",
+	"version": "1.4",
 	"permissions": [
-		"http://codeivate.com/users/BeryJu.json",
+		"http://codeivate.com/users/*.json",
 		"notifications"
 	],
-	// "options_page": "options/index.html",
 	"icons": {
 		"16": "icon.png",
 		"48": "icon.png",
@@ -15,7 +14,8 @@
 	},
 	"background": {
 		"scripts": [
-			"extension.js"
+			"extension.js",
+			"main.js"
 		]
 	},
 	"options_page": "options/index.html",

@@ -1,4 +1,3 @@
-var mainFile = "src/*.ts";
 var outFile = "bin/extension.js";
 var libDefinitionDir = "src/lib/*.d.ts";
 var libSourceDir = "src/lib/*.js";
@@ -9,7 +8,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		ts: {
 			game: {
-				src: [libDefinitionDir, mainDir, mainFile],
+				src: [libDefinitionDir, mainDir],
 				out: outFile,
 				options: {
 					target: 'es5',
