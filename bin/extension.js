@@ -71,8 +71,13 @@ var Codeivate;
             //cast the last profile from object to Codeivate.User
             var lastProfile = JSON.parse(localStorage['lastProfile']);
             if (profile.isCoding === false && lastProfile.isCoding === true) {
-                var notification = webkitNotifications.createNotification('/icon.png', 'Stopped programming!?', 'You should probably get back into it..');
-                notification.show();
+                chrome.notifications.create("stopped", {
+                    type: "basic",
+                    title: 'Stopped programming!?',
+                    message: 'You should probably get back into it..',
+                    iconUrl: "icon256.png"
+                }, function () {
+                });
             }
             for (var k in profile.languages) {
                 var language = profile.languages[k];
@@ -81,8 +86,13 @@ var Codeivate;
                     console.log(language.name + ":" + (language.level - oldLangauge.level));
                     if ((Math.floor(language.level) - Math.floor(oldLangauge.level)) > 0) {
                         //you have gained a level
-                        var notification = webkitNotifications.createNotification('/icon.png', 'You gained a level in ' + language.name, 'Welcome to level ' + Math.floor(language.level));
-                        notification.show();
+                        chrome.notifications.create(language.name, {
+                            type: "basic",
+                            title: 'You gained a level in ' + language.name,
+                            message: 'Welcome to level ' + Math.floor(language.level),
+                            iconUrl: "icon256.png"
+                        }, function () {
+                        });
                     }
                 }
             }

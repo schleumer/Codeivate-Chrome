@@ -1,1 +1,1 @@
-"src/lib/chrome.d.ts" "src/lib/webkit.d.ts" "src/extension/Extension.ts" "src/extension/Language.ts" "src/extension/Settings.ts" "src/extension/User.ts" --target ES5 --module amd --out bin/extension.js
+"src/lib/chrome.d.ts" "src/extension/Extension.ts" "src/extension/Language.ts" "src/extension/Settings.ts" "src/extension/User.ts" --target ES5 --module amd --out bin/extension.js
