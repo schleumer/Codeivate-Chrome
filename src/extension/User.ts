@@ -8,7 +8,7 @@ module Codeivate {
 		timeSpent: string;
 		currentLanguage: string;
 		isCoding: boolean;
-		languages: Codeivate.Language[] = [];
+		languages: {} = {};
 		isStreaking: boolean;
 
 		constructor(data: {}) {
@@ -26,7 +26,7 @@ module Codeivate {
 				//parsed data
 				var lang = new Codeivate.Language(l, rLang['level'], rLang['points']);
 				//add it to the languages
-				this.languages.push(lang);
+				this.languages[l] = lang;
 			}
 		}
 
