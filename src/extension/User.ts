@@ -1,11 +1,12 @@
 module Codeivate {
-	
+
 	export class User {
 
 		level: number;
 		name: string;
 		signatureUrl: string;
 		timeSpent: string;
+		hoursSpent: number;
 		currentLanguage: string;
 		isCoding: boolean;
 		languages: {} = {};
@@ -17,6 +18,7 @@ module Codeivate {
 			this.name = data['name'];
 			this.signatureUrl = "http://www.codeivate.com/users/"+this.name+"/signature.png";
 			this.timeSpent = (data['time_spent'] / 60 / 60).toFixed(2) + " Hours";
+			this.hoursSpent = Math.floor(data['time_spent'] / 60 / 60);
 			this.currentLanguage = data['current_language'];
 			this.isCoding = data['programming_now'];
 			this.isStreaking = data['streaking_now'];

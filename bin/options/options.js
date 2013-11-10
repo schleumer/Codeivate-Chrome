@@ -28,6 +28,8 @@ $(document).ready(function(){
 	$('#submit').click(function(){
 
 		var username = $("#username").val();
+
+
 		$('#submit').button('loading');
 		if (username !== "") {
 			var codeivate = new Codeivate.Extension(username, document);
@@ -36,11 +38,16 @@ $(document).ready(function(){
 				var data = new Codeivate.User(raw);
 				if ( typeof data.error == "undefined") {
 					localStorage['user'] = data.name;
+
+					localStorage['notificationLangLevel'] = $('#localStorage').prop('checked');
+					localStorage['notificationStoppedCoding'] = $('#localStorage').prop('checked');
+					localStorage['notificationHourGained'] = $('#localStorage').prop('checked');
+
 					$("submit").prop('disabled', true);
 					$("username").prop('disabled', true);
 					$('#submit').removeClass('btn-primary btn-success btn-warning');
 					$('#submit').addClass('btn-success');
-					
+
 					$('#submit').button('reset');
 					$('.form-group').removeClass('has-error');
 					$('.form-group').addClass('has-success');
@@ -60,7 +67,7 @@ $(document).ready(function(){
 			$('#submit').removeClass('btn-primary btn-success btn-warning');
 			$('#submit').addClass('btn-warning');
 			$('#submit').button('reset');
-			
+
 		}
 	});
 
