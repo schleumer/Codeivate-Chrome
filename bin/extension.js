@@ -9,9 +9,9 @@ var Codeivate;
                 this.settings = new Codeivate.Settings();
                 this.settings.codingColor = [125, 255, 125, 255];
                 this.settings.nonCodingColor = [255, 95, 95, 255];
-                this.settings.notificationLangLevel = false;
-                this.settings.notificationStoppedCoding = false;
-                this.settings.notificationHourGained = false;
+                this.settings.notificationLangLevel = true;
+                this.settings.notificationStoppedCoding = true;
+                this.settings.notificationHourGained = true;
 
                 localStorage['settings'] = JSON.stringify(this.settings);
             }
@@ -57,6 +57,7 @@ var Codeivate;
         };
 
         Extension.prototype.notifyUser = function (title, message) {
+            console.debug('notifying use:' + message);
             chrome.notifications.create("", {
                 type: "basic",
                 title: title,

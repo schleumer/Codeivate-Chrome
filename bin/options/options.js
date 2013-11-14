@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
 	if (localStorage['user'] !== undefined) {
-		$("#submit").prop('disabled', true);
+		// $("#submit").prop('disabled', true);
 		$("#username").val(localStorage['user']);
-		$("#username").prop('disabled',true);
+		// $("#username").prop('disabled',true);
 		$("#submit").html("Authenticated!");
 
 		$('#links').append($('<li>').html(
@@ -39,9 +39,9 @@ $(document).ready(function(){
 				if ( typeof data.error == "undefined") {
 					localStorage['user'] = data.name;
 
-					localStorage['notificationLangLevel'] = $('#localStorage').prop('checked');
-					localStorage['notificationStoppedCoding'] = $('#localStorage').prop('checked');
-					localStorage['notificationHourGained'] = $('#localStorage').prop('checked');
+					localStorage['notificationLangLevel'] = $('#notificationLangLevel').prop('checked');
+					localStorage['notificationStoppedCoding'] = $('#notificationStoppedCoding').prop('checked');
+					localStorage['notificationHourGained'] = $('#notificationHourGained').prop('checked');
 
 					$("submit").prop('disabled', true);
 					$("username").prop('disabled', true);
@@ -52,7 +52,8 @@ $(document).ready(function(){
 					$('.form-group').removeClass('has-error');
 					$('.form-group').addClass('has-success');
 					$('.username_error').empty();
-					chrome.runtime.reload()
+					//don't know if we need this?
+					//chrome.runtime.reload()
 				} else {
 					$('#submit').removeClass('btn-primary btn-success btn-warning');
 					$('#submit').addClass('btn-primary');
