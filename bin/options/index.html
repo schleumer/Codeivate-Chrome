@@ -17,7 +17,7 @@
 			}
 
 			.form-signin {
-				max-width: 350px;
+				max-width: 400px;
 				padding: 19px 29px 29px;
 				margin: 0 auto 20px;
 				background-color: #fff;
@@ -46,17 +46,36 @@
 
 	<body>
 
+
+
+
+
 		<div class="container">
 
 			<div class="form-signin">
 
 				<div class="form-group">
   					<label class="control-label" for="username">Enter your <a href="http://www.codeivate.com/">codeivate.com</a> Username <span class="username_error"></span></label>
-  					
+
 					<input type="text" class="form-control input-block-level" placeholder="Username" id="username">
 				</div>
 				<button class="btn btn-large btn-primary" data-loading-text="Authenticating..." id="submit">Authenticate</button>
 				<button class="btn btn-large btn-danger" id="reset">Reset</button>
+				<h4>Notify me when:</h4>
+				<ul>
+					<li>
+					<input type="checkbox" name="notificationLangLevel" id="notificationLangLevel" value="notificationLangLevel" checked>
+					<label for="notificationLangLevel">language gains a level</label><br />
+					</li>
+					<li>
+					<input type="checkbox" name="notificationStoppedCoding" id="notificationStoppedCoding" value="notificationStoppedCoding" checked>
+					<label for="notificationStoppedCoding">after you stop coding for 10 mins</label><br />
+					</li>
+					<li>
+					<input type="checkbox" name="notificationHourGained" id="notificationHourGained" value="notificationHourGained" checked>
+					<label for="notificationHourGained">each hour gained on Codeivate</label><br />
+					</li>
+				</ul>
 			</div>
 			<div class="row">
 				<ul id="links" class="nav nav-pills nav-stacked col-md-4">
@@ -64,9 +83,9 @@
 					<li><a target="_blank" href="http://www.codeivate.com/users/leaderboard">Codeivate Leaderboard</a></li>
 					<li><a target="_blank" href="https://github.com/BeryJu/Codeivate-Chrome/issues">Suggest a feature or report a bug</a></li>
 				</ul>
-				
+
 			</div>
-			
+
 
 		</div>
 		<script src="../js/jquery-2.0.3.min.js"></script>

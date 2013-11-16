@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
 	if (localStorage['user'] !== undefined) {
-		$("#submit").prop('disabled', true);
+		// $("#submit").prop('disabled', true);
 		$("#username").val(localStorage['user']);
-		$("#username").prop('disabled',true);
+		// $("#username").prop('disabled',true);
 		$("#submit").html("Authenticated!");
 
 		$('#links').append($('<li>').html(
@@ -28,6 +28,8 @@ $(document).ready(function(){
 	$('#submit').click(function(){
 
 		var username = $("#username").val();
+
+
 		$('#submit').button('loading');
 		if (username !== "") {
 			var codeivate = new Codeivate.Extension(username, document);
@@ -36,16 +38,22 @@ $(document).ready(function(){
 				var data = new Codeivate.User(raw);
 				if ( typeof data.error == "undefined") {
 					localStorage['user'] = data.name;
+
+					localStorage['notificationLangLevel'] = $('#notificationLangLevel').prop('checked');
+					localStorage['notificationStoppedCoding'] = $('#notificationStoppedCoding').prop('checked');
+					localStorage['notificationHourGained'] = $('#notificationHourGained').prop('checked');
+
 					$("submit").prop('disabled', true);
 					$("username").prop('disabled', true);
 					$('#submit').removeClass('btn-primary btn-success btn-warning');
 					$('#submit').addClass('btn-success');
-					
+
 					$('#submit').button('reset');
 					$('.form-group').removeClass('has-error');
 					$('.form-group').addClass('has-success');
 					$('.username_error').empty();
-					chrome.runtime.reload()
+					//don't know if we need this?
+					//chrome.runtime.reload()
 				} else {
 					$('#submit').removeClass('btn-primary btn-success btn-warning');
 					$('#submit').addClass('btn-primary');
@@ -60,7 +68,7 @@ $(document).ready(function(){
 			$('#submit').removeClass('btn-primary btn-success btn-warning');
 			$('#submit').addClass('btn-warning');
 			$('#submit').button('reset');
-			
+
 		}
 	});
 

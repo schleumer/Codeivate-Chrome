@@ -9,6 +9,10 @@ var Codeivate;
                 this.settings = new Codeivate.Settings();
                 this.settings.codingColor = [125, 255, 125, 255];
                 this.settings.nonCodingColor = [255, 95, 95, 255];
+                this.settings.notificationLangLevel = true;
+                this.settings.notificationStoppedCoding = true;
+                this.settings.notificationHourGained = true;
+
                 localStorage['settings'] = JSON.stringify(this.settings);
             }
             this.settings = JSON.parse(localStorage['settings']);
@@ -52,6 +56,17 @@ var Codeivate;
             });
         };
 
+        Extension.prototype.notifyUser = function (title, message) {
+            console.debug('notifying use:' + message);
+            chrome.notifications.create("", {
+                type: "basic",
+                title: title,
+                message: message,
+                iconUrl: "icon256.png"
+            }, function () {
+            });
+        };
+
         Extension.prototype.updateExtension = function (profile) {
             //set the icon badge to the level
             chrome.browserAction.setBadgeText({
@@ -68,32 +83,29 @@ var Codeivate;
 
             //cast the last profile from object to Codeivate.User
             var lastProfile = JSON.parse(localStorage['lastProfile']);
-            if (profile.isCoding === false && lastProfile.isCoding === true) {
-                chrome.notifications.create("", {
-                    type: "basic",
-                    title: 'Stopped programming!?',
-                    message: 'You should probably get back into it..',
-                    iconUrl: "icon256.png"
-                }, function () {
-                });
+
+            if (this.settings.notificationStoppedCoding && profile.isCoding === false && lastProfile.isCoding === true) {
+                this.notifyUser('Stopped programming!?', 'You should probably get back into it..');
             }
-            for (var k in profile.languages) {
-                var language = profile.languages[k];
-                var oldLangauge = lastProfile.languages[k];
-                if ((language.level - oldLangauge.level) > 0) {
-                    console.log(language.name + ":" + (language.level - oldLangauge.level));
-                    if ((Math.floor(language.level) - Math.floor(oldLangauge.level)) > 0) {
-                        //you have gained a level
-                        chrome.notifications.create("", {
-                            type: "basic",
-                            title: 'You gained a level in ' + language.name,
-                            message: 'Welcome to level ' + Math.floor(language.level),
-                            iconUrl: "icon256.png"
-                        }, function () {
-                        });
+
+            if (this.settings.notificationLangLevel) {
+                for (var k in profile.languages) {
+                    var language = profile.languages[k];
+                    var oldLanguage = lastProfile.languages[k];
+                    if ((language.level - oldLanguage.level) > 0) {
+                        console.log(language.name + ":" + (language.level - oldLanguage.level));
+                        if ((Math.floor(language.level) - Math.floor(oldLanguage.level)) > 0) {
+                            //you have gained a level
+                            this.notifyUser('You gained a level in ' + language.name, 'Welcome to level ' + Math.floor(language.level));
+                        }
                     }
                 }
             }
+
+            if (this.settings.notificationHourGained && (profile.hoursSpent - lastProfile.hoursSpent) > 0) {
+                this.notifyUser('+1 hour', 'You have now programmed for ' + profile.hoursSpent + "hours");
+            }
+
             if (profile.isCoding === true) {
                 chrome.browserAction.setBadgeBackgroundColor({ color: this.settings.codingColor });
             } else {
@@ -123,6 +135,9 @@ var Codeivate;
 (function (Codeivate) {
     var Settings = (function () {
         function Settings() {
+            this.notificationLangLevel = localStorage['notificationLangLevel'];
+            this.notificationStoppedCoding = localStorage['notificationStoppedCoding'];
+            this.notificationHourGained = localStorage['notificationHourGained'];
         }
         return Settings;
     })();
@@ -138,6 +153,7 @@ var Codeivate;
             this.name = data['name'];
             this.signatureUrl = "http://www.codeivate.com/users/" + this.name + "/signature.png";
             this.timeSpent = (data['time_spent'] / 60 / 60).toFixed(2) + " Hours";
+            this.hoursSpent = Math.floor(data['time_spent'] / 60 / 60);
             this.currentLanguage = data['current_language'];
             this.isCoding = data['programming_now'];
             this.isStreaking = data['streaking_now'];

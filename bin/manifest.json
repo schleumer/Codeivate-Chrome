@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Codeivate Chrome",
 	"description": "Check your Codeivate Profile",
-	"version": "1.5.3.3",
+	"version": "1.5.3.4",
 	"permissions": [
 		"http://codeivate.com/users/*.json",
 		"notifications",

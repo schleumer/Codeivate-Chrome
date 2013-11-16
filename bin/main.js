@@ -1,6 +1,7 @@
 var callb = function() {
 	if (localStorage['user']) {
 		var extension = new Codeivate.Extension(localStorage['user']);
+		extension.stop();
 		extension.update();
 		extension.start();
 	} else {
